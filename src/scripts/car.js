@@ -11,7 +11,7 @@ export class PlayerCar {
         this.height = height;
         this.x = x;
         this.y = y;
-        this.pivot = {x: this.x + this.width / 2, y: this.y + 20};
+        this.pivot = {x: this.x + 50, y: this.y + 20};
         this.frontPivot = { x: 0, y: 0 };
         this.rearPivot = { x: 0, y: 160 };
         this.rotation = 0;
@@ -38,16 +38,17 @@ export class PlayerCar {
         // move boolean
         this.accelerate = false;
         this.decelerate = false;
-        this.break = true;
+        this.break = false;
         this.turnLeft = false;
         this.turnRight = false;
 
         document.addEventListener(
           "keydown",
-          function (e) {
+          e => {
             if (e.defaultPrevented) {
               return;
             }
+            console.log(e)
 
             switch (e.code) {
               case "ArrowLeft":
@@ -57,14 +58,14 @@ export class PlayerCar {
                 this.turnRight = true;
                 break;
               case "ArrowUp":
-                console.log(e.code);
+                // console.log("key down");
                 this.accelerate = true;
-                console.log(this.accelerate)
+                // console.log(this.accelerate)
                 break;
               case "ArrowDown":
                 this.decelerate = true;
                 break;
-              case " ":
+              case "Space":
                 this.break = true;
                 if (this.speed != 0) {
                   this.speed -= 1.2;
@@ -73,12 +74,13 @@ export class PlayerCar {
                 break;
             }
             e.preventDefault();
+            // console.log(this.accelerate)
           }
         );
 
         document.addEventListener(
           "keyup",
-          function (e) {
+          e => {
             if (e.defaultPrevented) {
               return;
             }
@@ -96,7 +98,7 @@ export class PlayerCar {
               case "ArrowDown":
                 this.decelerate = false;
                 break;
-              case " ":
+              case "Space":
                 this.break = false;
                 break;
             }
@@ -142,7 +144,7 @@ export class PlayerCar {
         ctx.translate(this.pivot.x, this.pivot.y);
         ctx.rotate((this.rotation * Math.PI) / 180);
 
-        ctx.drawImage(this.car, 100, 100);
+        ctx.drawImage(this.car, 100, 100, 80, 80);
 
         ctx.beginPath();
 
@@ -162,43 +164,42 @@ export class PlayerCar {
     }
 
     move() {
-        if (this.accelerate) {
-            this.speed += this.acceleration;
-            console.log("hello")
-        } else if (this.speed > 0) {
-            this.speed -= this.acceleration;
+      if (this.accelerate) {
+        this.speed += this.acceleration;
+        console.log(this.speed)
+      } else if (this.speed > 0) {
+        this.speed -= this.acceleration;
+      }
+
+      if (this.decelerate) {
+        this.speed -= this.acceleration;
+      } else if (this.speed < 0) {
+        this.speed += this.acceleration;
+      }
+
+      if (this.break) {
+        if (this.speed != 0) {
+          this.speed -= 1.2;
+          if (this.speed < 0) this.speed = 0;
         }
+      }
 
-        if (this.decelerate) {
-            this.speed -= this.acceleration;
-        } else if (this.speed < 0) {
-            this.speed += this.acceleration;
-        }
+      console.log(this.speed);
+      this.pivot.x += this.direction.x;
+      this.pivot.y += this.direction.y;
 
-        if (this.break) {
-          if (this.speed != 0) {
-            this.speed -= 1.2;
-            if (this.speed < 0) this.speed = 0;
-          }
-        }
+      const vector = new Vector(this.pivot, this.rearPivotAbs);
+      let angle = (Math.atan2(-vector.y, vector.x) * 180) / Math.PI;
+      angle += 180;
+      angle = 360 - angle - 90;
+      this.rotation = angle;
 
-        this.pivot.x += this.direction.x;
-        this.pivot.y += this.direction.y;
-
-        const vector = new Vector(this.pivot, this.rearPivotAbs);
-        let angle = (Math.atan2(-vector.y, vector.x) * 180) / Math.PI;
-        angle += 180;
-        angle = 360 - angle - 90;
-        this.rotation = angle;
-
-        this.rearPivotAbs = {
-          x:
-            160 * Math.cos(((this.rotation + 90) * Math.PI) / 180) +
-            this.pivot.x,
-          y:
-            160 * Math.sin(((this.rotation + 90) * Math.PI) / 180) +
-            this.pivot.y,
-        };
+      this.rearPivotAbs = {
+        x:
+          160 * Math.cos(((this.rotation + 90) * Math.PI) / 180) + this.pivot.x,
+        y:
+          160 * Math.sin(((this.rotation + 90) * Math.PI) / 180) + this.pivot.y,
+      };
     }
 
     animate(ctx) {

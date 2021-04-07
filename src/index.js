@@ -44,6 +44,8 @@ document.addEventListener("DOMContentLoaded", () => {
     })();
 
     function animloop() {
+        ctx.fillStyle = "white";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
         playerCar.animate(ctx);
       window.animationId = window.requestAnimationFrame(animloop);
     }
