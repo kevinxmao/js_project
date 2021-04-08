@@ -4,12 +4,17 @@ import { PlayerCar } from "./scripts/car";
 
 document.addEventListener("DOMContentLoaded", () => {
     const canvas = document.getElementById("main-game");
-    const game = new Game(canvas);
-
     const ctx = canvas.getContext("2d");
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
 
-    const car = document.getElementById('striped-car');
-    const playerCar = new PlayerCar(80, 80, 100, 100, car);
+    const myCar = document.getElementById("local");
+
+    const car = new PlayerCar(myCar);
+
+    // const car = document.getElementById('striped-car');
+    // const playerCar = new PlayerCar(40, 80, 100, 100, car);
+    // const game = new Game(playerCar);
 
     (function () {
       var lastTime = 0;
@@ -44,10 +49,77 @@ document.addEventListener("DOMContentLoaded", () => {
     })();
 
     function animloop() {
-        ctx.fillStyle = "white";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        playerCar.animate(ctx);
-      window.animationId = window.requestAnimationFrame(animloop);
+      let x = car.x;
+      let y = car.y;
+      let angle = car.angle;
+      let width = 16;
+      let height = 32;
+
+      // let randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
+
+      ctx.beginPath();
+      ctx.arc(
+        x - ((width / 2) * Math.cos(angle)) + ((height / 2) * Math.sin(angle)),
+        y - ((width / 2) * Math.sin(angle)) - ((height / 2) * Math.cos(angle)),
+        2,
+        0,
+        2 * Math.PI
+      );
+      ctx.arc(
+        x + ((width / 2) * Math.cos(angle)) + ((height / 2) * Math.sin(angle)),
+        y + ((width / 2) * Math.sin(angle)) - ((height / 2) * Math.cos(angle)),
+        2,
+        0,
+        2 * Math.PI
+      );
+      ctx.fillStyle = randomColor;
+      ctx.fill();
+      // ctx.fillStyle = 'blue';
+      // ctx.fillRect(
+      //   x - ((width / 2) * Math.cos(angle)) + ((height / 2) * Math.sin(angle)),
+      //   y - ((width / 2) * Math.sin(angle)) - ((height / 2) * Math.cos(angle)),
+      //   5,
+      //   5
+      // );
+      // ctx.fillRect(
+      //   x + ((width / 2) * Math.cos(angle)) + ((height / 2) * Math.sin(angle)),
+      //   y + ((width / 2) * Math.sin(angle)) - ((height / 2) * Math.cos(angle)),
+      //   5,
+      //   5
+      // );
+        // ctx.fillRect(200, 30, 1000, 600);
+
+        car.move();
+        car.drawCar();
+
+        window.animationId = window.requestAnimationFrame(animloop);
     }
     animloop();
+
 })
+
+// Rectangle Math
+
+/*
+TOP RIGHT VERTEX:
+Top_Right.x = center.x + ((width / 2) * cos(angle)) - ((height / 2) * sin(angle))
+Top_Right.y = center.y + ((width / 2) * sin(angle)) + ((height / 2) * cos(angle))
+
+
+
+TOP LEFT VERTEX:
+Top_Left.x = center.x - ((width / 2) * cos(angle)) - ((height / 2) * sin(angle))
+Top_Left.y = center.y - ((width / 2) * sin(angle)) + ((height / 2) * cos(angle))
+
+
+
+BOTTOM LEFT VERTEX:
+Bot_Left.x = center.x - ((width / 2) * cos(angle)) + ((height / 2) * sin(angle))
+Bot_Left.y = center.y - ((width / 2) * sin(angle)) - ((height / 2) * cos(angle))
+
+
+
+BOTTOM RIGHT VERTEX:
+Bot_Right.x = center.x + ((width / 2) * cos(angle)) + ((height / 2) * sin(angle))
+Bot_Right.y = center.y + ((width / 2) * sin(angle)) - ((height / 2) * cos(angle))
+*/

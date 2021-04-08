@@ -16,9 +16,12 @@
     <img src="./src/assets/images/Car grey.png" alt="car" id="grey-car" style="display: none;">
     <img src="./src/assets/images/Car grey front.png" alt="car" id="grey-car-front" style="display: none;">
     <img src="./src/assets/images/Car Striped.png" alt="car" id="striped-car" style="display: none;">
+    <img src="./src/assets/images/Concrete top.png" alt="sidewalk" id="sidewalk-top" style="display: none;">
+    <img src="./src/assets/images/Concrete middle.png" alt="sidewalk" id="sidewalk-middle" style="display: none;">
+    <img src="./src/assets/images/Concrete bottom.png" alt="sidewalk" id="sidewalk-bottom" style="display: none;">
 </head>
 <body>
-    <header class="game-header">
+    <!-- <header class="game-header">
         <div>
             <h1>So You Think You Can Park</h1>
         </div>
@@ -27,12 +30,19 @@
         </div>
     </header>
     <div class="game-container">
-        <div class="control-panel-left"></div>
-        <canvas id="main-game" height="675px" width="800px">
+        <div class="control-panel-left">
+            <div class="timer-container"></div>
+        </div>
+        <canvas id="main-game" height="700px" width="400px">
         </canvas>
         <div class="control-panel-right"></div>
+    </div> -->
+
+    <canvas id="main-game"></canvas>
+    <div class="scene">
+        <div class="car striped-car" id="local"></div>
     </div>
-    <div id="modal" class="="modal-container></div>
+    <div id="modal" class="=" modal-container></div>
     <script src="./dist/main.js"></script>
 </body>
 </html>

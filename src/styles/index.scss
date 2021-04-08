@@ -1,0 +1,34 @@
+body {
+    overflow: hidden;
+    background-color: wheat;
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.scene {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+}
+
+.car {
+  position: absolute;
+  top: -16px;
+  left: -8px;
+  width: 16px;
+  height: 32px;
+  border-radius: 4px;
+  background-color: #0066ff;
+  will-change: transform;
+}
+
+.car.striped-car {
+  background-image: url("../assets/images/Car\ Striped.png");
+}

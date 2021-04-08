@@ -1,44 +1,29 @@
-import { Vector } from "./vector";
-
 export const CAR_CONSTANTS = {
-
+  maxSpeed: 4,
+  maxReverseSpeed: 3.5,
+  acceleration: 0.5,
+  decceleration: 0.05,
+  angularAcceleration: 0.04
 }
 
 export class PlayerCar {
-    constructor(width, height, x, y, car) {
+    constructor(car) {
+
+        // car DOM element
         this.car = car;
-        this.width = width;
-        this.height = height;
-        this.x = x;
-        this.y = y;
-        this.pivot = {x: this.x + 50, y: this.y + 20};
-        this.frontPivot = { x: 0, y: 0 };
-        this.rearPivot = { x: 0, y: 160 };
-        this.rotation = 0;
-        this.turnAngle = 0;
-        this.maxTurnAngle = 45;
-        this.turnStep = 9;
-        this.directionPivot = {
-          x: this.frontPivot.x,
-          y: this.frontPivot.y - 50,
-        };
-        this.rearPivotAbs = {
-          x:
-            160 * Math.cos(((this.rotation + 90) * Math.PI) / 180) +
-            this.pivot.x,
-          y:
-            160 * Math.sin(((this.rotation + 90) * Math.PI) / 180) +
-            this.pivot.y,
-        };
-        this.tempDirPivot = { x: 0, y: 0 };
+        this.x = window.innerWidth / 2;
+        this.y = window.innerHeight / 2;
+        this.dx = 0;
+        this.dy = 0;
         this.speed = 0;
-        this.acceleration = 0.2;
-        this.direction = new Vector(this.directionPivot, this.frontPivot).normalize();
-        
+        this.reverseSpeed = 0;
+        this.angle = 0;
+        this.omega = 0;
+
         // move boolean
         this.accelerate = false;
-        this.decelerate = false;
-        this.break = false;
+        this.reverse = false;
+        // this.break = false;
         this.turnLeft = false;
         this.turnRight = false;
 
@@ -48,7 +33,6 @@ export class PlayerCar {
             if (e.defaultPrevented) {
               return;
             }
-            console.log(e)
 
             switch (e.code) {
               case "ArrowLeft":
@@ -63,7 +47,7 @@ export class PlayerCar {
                 // console.log(this.accelerate)
                 break;
               case "ArrowDown":
-                this.decelerate = true;
+                this.reverse = true;
                 break;
               case "Space":
                 this.break = true;
@@ -96,7 +80,7 @@ export class PlayerCar {
                 this.accelerate = false;
                 break;
               case "ArrowDown":
-                this.decelerate = false;
+                this.reverse = false;
                 break;
               case "Space":
                 this.break = false;
@@ -108,102 +92,60 @@ export class PlayerCar {
         );
     }
 
-    updateDirection() {
-        if (this.turnLeft && this.turnAngle > -this.maxTurnAngle) {
-            this.turnAngle -= this.turnStep;
-        }
-
-        if (this.turnRight && this.turnAngle < this.maxTurnAngle) {
-            this.turnAngle += this.turnStep;
-        }
-
-        this.directionPivot.x =
-          50 *
-            Math.cos(((this.turnAngle + this.rotation - 90) * Math.PI) / 180) +
-          this.frontPivot.x;
-        this.directionPivot.y =
-          50 *
-            Math.sin(((this.turnAngle + this.rotation - 90) * Math.PI) / 180) +
-          this.frontPivot.y;
-
-        this.tempDirPivot.x =
-          50 * Math.cos(((this.turnAngle - 90) * Math.PI) / 180) +
-          this.frontPivot.x;
-        this.tempDirPivot.y =
-          50 * Math.sin(((this.turnAngle - 90) * Math.PI) / 180) +
-          this.frontPivot.x;
-
-        this.direction = new Vector(this.directionPivot, this.frontPivot).normalize();
-        this.direction.x *= this.speed;
-        this.direction.y *= this.speed;
-    }
-
-    drawCar(ctx) {
-        this.updateDirection();
-        ctx.save();
-        ctx.translate(this.pivot.x, this.pivot.y);
-        ctx.rotate((this.rotation * Math.PI) / 180);
-
-        ctx.drawImage(this.car, 100, 100, 80, 80);
-
-        ctx.beginPath();
-
-        ctx.moveTo(this.frontPivot.x - 50, this.frontPivot.y);
-        ctx.lineTo(this.frontPivot.x + 50, this.frontPivot.y);
-        ctx.moveTo(this.rearPivot.x - 50, this.rearPivot.y);
-        ctx.lineTo(this.rearPivot.x + 50, this.rearPivot.y);
-        ctx.moveTo(this.frontPivot.x, this.frontPivot.y);
-        ctx.lineTo(this.rearPivot.x, this.rearPivot.y);
-
-        ctx.moveTo(this.frontPivot.x, this.frontPivot.y);
-        ctx.lineTo(this.tempDirPivot.x, this.tempDirPivot.y);
-        ctx.strokeStyle = "#000";
-        ctx.stroke();
-
-        ctx.restore();
-    }
-
     move() {
+      const { maxSpeed, acceleration, decceleration, maxReverseSpeed, angularAcceleration } = CAR_CONSTANTS;
+
       if (this.accelerate) {
-        this.speed += this.acceleration;
-        console.log(this.speed)
-      } else if (this.speed > 0) {
-        this.speed -= this.acceleration;
+        this.speed += acceleration;
+      } else {
+        this.speed -= decceleration;
       }
 
-      if (this.decelerate) {
-        this.speed -= this.acceleration;
-      } else if (this.speed < 0) {
-        this.speed += this.acceleration;
+      if (this.reverse) {
+        this.reverseSpeed += acceleration;
+      } else {
+        this.reverseSpeed -= decceleration;
       }
 
-      if (this.break) {
-        if (this.speed != 0) {
-          this.speed -= 1.2;
-          if (this.speed < 0) this.speed = 0;
-        }
+      this.speed = Math.min(maxSpeed, Math.max(this.speed, 0));
+      this.reverseSpeed = Math.min(maxReverseSpeed, Math.max(this.reverseSpeed, 0));
+
+      const direction = this.speed >= this.reverseSpeed ? 1 : -1;
+
+      if (this.turnRight && (this.speed > 0.1 || this.reverseSpeed > 0.1)) {
+        this.omega = direction * angularAcceleration;
+      } else if (this.turnLeft && (this.speed > 0.1 || this.reverseSpeed > 0.1)) {
+        this.omega = -direction * angularAcceleration;
+      } else {
+        this.omega = 0;
       }
 
-      console.log(this.speed);
-      this.pivot.x += this.direction.x;
-      this.pivot.y += this.direction.y;
+      this.dx = Math.sin(this.angle) * (this.speed - this.reverseSpeed);
+      this.dy = Math.cos(this.angle) * (this.speed - this.reverseSpeed);
 
-      const vector = new Vector(this.pivot, this.rearPivotAbs);
-      let angle = (Math.atan2(-vector.y, vector.x) * 180) / Math.PI;
-      angle += 180;
-      angle = 360 - angle - 90;
-      this.rotation = angle;
+      // console.log(this.x)
 
-      this.rearPivotAbs = {
-        x:
-          160 * Math.cos(((this.rotation + 90) * Math.PI) / 180) + this.pivot.x,
-        y:
-          160 * Math.sin(((this.rotation + 90) * Math.PI) / 180) + this.pivot.y,
-      };
+      this.x += this.dx;
+      this.y -= this.dy;
+
+      this.angle += this.omega;
+      this.omega *= this.omega;
+
+      if (this.x > window.innerWidth) {
+        this.x -= window.innerWidth;
+      } else if (this.x < 0) {
+        this.x += window.innerWidth;
+      }
+
+      if (this.y > window.innerHeight) {
+        this.y -= window.innerHeight;
+      } else if (this.y < 0) {
+        this.y += window.innerHeight;
+      }
     }
 
-    animate(ctx) {
-        this.move();
-        this.drawCar(ctx);
+    drawCar() {
+      this.car.style.transform = `translate(${this.x}px, ${this.y}px) rotate(${this.angle * 180 / Math.PI}deg)`;
     }
+
 }
