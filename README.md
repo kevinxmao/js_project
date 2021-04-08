@@ -1,4 +1,4 @@
-# So You Think You Can Drive
+# Park It
 
 A parallel parking game that reminds New Yorkers the stress and straneous experience of finding a parking spot.
 
