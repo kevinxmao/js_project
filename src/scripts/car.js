@@ -2,8 +2,8 @@ export const CAR_CONSTANTS = {
   maxSpeed: 4,
   maxReverseSpeed: 3.5,
   acceleration: 0.5,
-  decceleration: 0.05,
-  angularAcceleration: 0.04
+  decceleration: 0.2,
+  angularAcceleration: 0.05
 }
 
 export class PlayerCar {

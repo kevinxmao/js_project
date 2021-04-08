@@ -57,37 +57,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // let randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
 
-      ctx.beginPath();
-      ctx.arc(
-        x - ((width / 2) * Math.cos(angle)) + ((height / 2) * Math.sin(angle)),
-        y - ((width / 2) * Math.sin(angle)) - ((height / 2) * Math.cos(angle)),
-        2,
-        0,
-        2 * Math.PI
-      );
-      ctx.arc(
-        x + ((width / 2) * Math.cos(angle)) + ((height / 2) * Math.sin(angle)),
-        y + ((width / 2) * Math.sin(angle)) - ((height / 2) * Math.cos(angle)),
-        2,
-        0,
-        2 * Math.PI
-      );
-      ctx.fillStyle = randomColor;
-      ctx.fill();
+      // ctx.beginPath();
+      // ctx.arc(
+      //   x - ((width / 2) * Math.cos(angle)) - ((height / 2) * Math.sin(angle)),
+      //   y - ((width / 2) * Math.sin(angle)) + ((height / 2) * Math.cos(angle)),
+      //   1,
+      //   0,
+      //   2 * Math.PI
+      // );
+      // ctx.arc(
+      //   x + ((width / 2) * Math.cos(angle)) - ((height / 2) * Math.sin(angle)),
+      //   y + ((width / 2) * Math.sin(angle)) + ((height / 2) * Math.cos(angle)),
+      //   1,
+      //   0,
+      //   2 * Math.PI
+      // );
       // ctx.fillStyle = 'blue';
-      // ctx.fillRect(
-      //   x - ((width / 2) * Math.cos(angle)) + ((height / 2) * Math.sin(angle)),
-      //   y - ((width / 2) * Math.sin(angle)) - ((height / 2) * Math.cos(angle)),
-      //   5,
-      //   5
-      // );
-      // ctx.fillRect(
-      //   x + ((width / 2) * Math.cos(angle)) + ((height / 2) * Math.sin(angle)),
-      //   y + ((width / 2) * Math.sin(angle)) - ((height / 2) * Math.cos(angle)),
-      //   5,
-      //   5
-      // );
-        // ctx.fillRect(200, 30, 1000, 600);
+      // ctx.fill();
+      ctx.fillStyle = 'blue';
+      ctx.fillRect(
+        x - ((width / 2) * Math.cos(angle)) - ((height / 2) * Math.sin(angle)),
+        y - ((width / 2) * Math.sin(angle)) + ((height / 2) * Math.cos(angle)),
+        1,
+        1
+      );
+      ctx.fillRect(
+        x + ((width / 2) * Math.cos(angle)) - ((height / 2) * Math.sin(angle)),
+        y + ((width / 2) * Math.sin(angle)) + ((height / 2) * Math.cos(angle)),
+        1,
+        1
+      );
 
         car.move();
         car.drawCar();

@@ -42,9 +42,9 @@ export class Game {
 
     }
 
-    levelUp() {
+    // levelUp() {
 
-    }
+    // }
 
     restart() {
 
