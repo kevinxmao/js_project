@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/cdcd92b44c.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./dist/main.css" />
     <title>JS Project</title>
     <!-- Images -->
-    <img src="./src/assets/images/Car blue.png" alt="car" id="blue-car" style="display: none;">
+    <!-- <img src="./src/assets/images/Car blue.png" alt="car" id="blue-car" style="display: none;">
     <img src="./src/assets/images/Car blue front.png" alt="car" id="blue-car-front" style= "display: none;">
     <img src="./src/assets/images/Car red.png" alt="car" id="red-car" style= "display: none;">
     <img src="./src/assets/images/Car red front.png" alt="car" id="red-car-front" style="display: none;">
@@ -18,27 +21,26 @@
     <img src="./src/assets/images/Car Striped.png" alt="car" id="striped-car" style="display: none;">
     <img src="./src/assets/images/Concrete top.png" alt="sidewalk" id="sidewalk-top" style="display: none;">
     <img src="./src/assets/images/Concrete middle.png" alt="sidewalk" id="sidewalk-middle" style="display: none;">
-    <img src="./src/assets/images/Concrete bottom.png" alt="sidewalk" id="sidewalk-bottom" style="display: none;">
+    <img src="./src/assets/images/Concrete bottom.png" alt="sidewalk" id="sidewalk-bottom" style="display: none;"> -->
 </head>
 <body>
-    <!-- <header class="game-header">
-        <div>
-            <h1>So You Think You Can Park</h1>
-        </div>
-        <div>
-            <h3>Designed by: <a href="https://github.com/kevinxmao" target="_blank">Kevin Mao</a></h3>
-        </div>
-    </header>
-    <div class="game-container">
-        <div class="control-panel-left">
-            <div class="timer-container"></div>
-        </div>
-        <canvas id="main-game" height="700px" width="400px">
-        </canvas>
-        <div class="control-panel-right"></div>
-    </div> -->
 
     <canvas id="main-game"></canvas>
+    <header>
+        <a class="start" href="#">Start Racing</a>
+        <div class="ui-item timer">
+            TIMER: <span class="time">00:00:00</span>
+        </div>
+        <div class="ui-item lives">
+            <ul>
+                <li><i class="fas fa-heart"></i></li>
+                <li><i class="fas fa-heart"></i></li>
+                <li><i class="fas fa-heart"></i></li>
+                <li><i class="fas fa-heart"></i></li>
+                <li><i class="fas fa-heart"></i></li>
+            </ul>
+        </div>
+    </header>
     <div class="scene">
         <div class="car striped-car" id="local"></div>
         <!-- <div class="car striped-car" id="local"></div> -->

@@ -1,7 +1,8 @@
 import "./styles/index.scss";
 import { Game } from "./scripts/game";
 import { PlayerCar } from "./scripts/car";
-import { MovingObj } from "./scripts/moving_obj";
+// import { MovingObj } from "./scripts/moving_obj";
+import { Timer } from "./scripts/timer";
 
 document.addEventListener("DOMContentLoaded", () => {
     const canvas = document.getElementById("main-game");
@@ -10,14 +11,13 @@ document.addEventListener("DOMContentLoaded", () => {
     canvas.width = window.innerWidth;
 
     const myCar = document.getElementById("local");
+    const timerEle = document.querySelector('.timer span')
 
+    const timer = new Timer(timerEle);
     const car = new PlayerCar(myCar);
-    const game = new Game(ctx, car);
-    game.addBalls();
+    const game = new Game(ctx, car, timer);
 
-    // const car = document.getElementById('striped-car');
-    // const playerCar = new PlayerCar(40, 80, 100, 100, car);
-    // const game = new Game(playerCar);
+    myCar.style.transform = `translate(${window.innerWidth / 2}px, ${window.innerHeight / 2}px) rotate(${0}deg)`;
 
     (function () {
       var lastTime = 0;
@@ -52,33 +52,20 @@ document.addEventListener("DOMContentLoaded", () => {
     })();
 
     function animloop() {
-      let x = car.x;
-      let y = car.y;
-      let angle = car.angle;
-      let width = 16;
-      let height = 32;
-
-      // ctx.fillStyle = 'blue';
-      // ctx.fillRect(
-      //   x - ((width / 2) * Math.cos(angle)) - ((height / 2) * Math.sin(angle)),
-      //   y - ((width / 2) * Math.sin(angle)) + ((height / 2) * Math.cos(angle)),
-      //   1,
-      //   1
-      // );
-      // ctx.fillRect(
-      //   x + ((width / 2) * Math.cos(angle)) - ((height / 2) * Math.sin(angle)),
-      //   y + ((width / 2) * Math.sin(angle)) + ((height / 2) * Math.cos(angle)),
-      //   1,
-      //   1
-      // );
-
         car.move();
         car.drawCar();
         game.animate();
+
         window.animationId = window.requestAnimationFrame(animloop);
     }
-    animloop();
+  
+    const startBtn = document.querySelector("a.start");
 
+    startBtn.addEventListener('click', () => {
+      startBtn.style.visibility = 'hidden';
+      game.start();
+      animloop();
+    })
 })
 
 // Rectangle Math

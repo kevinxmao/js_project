@@ -2,17 +2,20 @@ import {CAR_CONSTANTS, PlayerCar} from "./car";
 import { MovingObj } from "./moving_obj";
 
 export class Game {
-    constructor(ctx, car) {
+    constructor(ctx, car, timer) {
         this.ctx = ctx;
         this.running = true;
         this.level = 1;
         this.car = car;
+        this.timer = timer;
         this.balls = [];
+        this.lives = 5;
+        this.hearts = document.querySelectorAll("div.lives li");
     }
 
     addBalls() {
         if (this.level === 1) {
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < 10; i++) {
                 this.addBall(30, 5);
             }
         }
@@ -22,6 +25,12 @@ export class Game {
 
     }
 
+    carCrashed() {
+        --this.lives;
+        this.updateHearts();
+        this.reset();
+    }
+
     addBall(radius, vel) {
         let color = '#' + Math.floor(Math.random() * 16777215).toString(16);
         let x = Math.floor(Math.random() * window.innerWidth);
@@ -29,7 +38,6 @@ export class Game {
         let angle = Math.random() * Math.PI * 2;
 
         let attr = {radius, x, y, color, vel, angle};
-        console.log(attr)
 
         const ball = new MovingObj(this.ctx, attr);
         this.balls.push(ball);
@@ -43,6 +51,14 @@ export class Game {
                 }
             }
         }
+    }
+
+    reset() {
+        // debugger;
+        this.balls = [];
+        this.addBalls();
+        this.car.car.style.transform = `translate(${window.innerWidth / 2}px, ${window.innerHeight / 2}px) rotate(${0}deg)`;
+        this.timer.startTimer();
     }
 
     static onCollision(obj1, obj2) {
@@ -71,15 +87,22 @@ export class Game {
     }
 
     start() {
-
+        this.addBalls();
+        this.timer.startTimer();
     }
-
-    // levelUp() {
-
-    // }
 
     restart() {
 
+    }
+    
+    gameOver() {
+        return !this.lives;
+    }
+
+    updateHearts() {
+        for (let i = 0; i < this.hearts.length; i++) {
+            this.hearts[i].style.opacity = i < this.lives ? 1 : 0.2;
+        }
     }
 
     animate() {
@@ -91,9 +114,8 @@ export class Game {
         });
         this.balls.forEach(ball => {
             if (this.car.checkCollisionWithBall(ball)) {
-                console.log(`${this.car.vx}, ${this.car.vy}`)
-                Game.onCollision(ball, this.car);
-                console.log(`${this.car.vx}, ${this.car.vy}`)
+                this.carCrashed();
+                this.timer.pauseTimer();
             }
         });
         this.checkBallCollision();
