@@ -1,6 +1,7 @@
 import "./styles/index.scss";
 import { Game } from "./scripts/game";
 import { PlayerCar } from "./scripts/car";
+import { MovingObj } from "./scripts/moving_obj";
 
 document.addEventListener("DOMContentLoaded", () => {
     const canvas = document.getElementById("main-game");
@@ -11,6 +12,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const myCar = document.getElementById("local");
 
     const car = new PlayerCar(myCar);
+    const game = new Game(ctx, car);
+    game.addBalls();
 
     // const car = document.getElementById('striped-car');
     // const playerCar = new PlayerCar(40, 80, 100, 100, car);
@@ -55,42 +58,23 @@ document.addEventListener("DOMContentLoaded", () => {
       let width = 16;
       let height = 32;
 
-      // let randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
-
-      // ctx.beginPath();
-      // ctx.arc(
+      // ctx.fillStyle = 'blue';
+      // ctx.fillRect(
       //   x - ((width / 2) * Math.cos(angle)) - ((height / 2) * Math.sin(angle)),
       //   y - ((width / 2) * Math.sin(angle)) + ((height / 2) * Math.cos(angle)),
       //   1,
-      //   0,
-      //   2 * Math.PI
+      //   1
       // );
-      // ctx.arc(
+      // ctx.fillRect(
       //   x + ((width / 2) * Math.cos(angle)) - ((height / 2) * Math.sin(angle)),
       //   y + ((width / 2) * Math.sin(angle)) + ((height / 2) * Math.cos(angle)),
       //   1,
-      //   0,
-      //   2 * Math.PI
+      //   1
       // );
-      // ctx.fillStyle = 'blue';
-      // ctx.fill();
-      ctx.fillStyle = 'blue';
-      ctx.fillRect(
-        x - ((width / 2) * Math.cos(angle)) - ((height / 2) * Math.sin(angle)),
-        y - ((width / 2) * Math.sin(angle)) + ((height / 2) * Math.cos(angle)),
-        1,
-        1
-      );
-      ctx.fillRect(
-        x + ((width / 2) * Math.cos(angle)) - ((height / 2) * Math.sin(angle)),
-        y + ((width / 2) * Math.sin(angle)) + ((height / 2) * Math.cos(angle)),
-        1,
-        1
-      );
 
         car.move();
         car.drawCar();
-
+        game.animate();
         window.animationId = window.requestAnimationFrame(animloop);
     }
     animloop();
@@ -101,24 +85,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
 /*
 TOP RIGHT VERTEX:
-Top_Right.x = center.x + ((width / 2) * cos(angle)) - ((height / 2) * sin(angle))
-Top_Right.y = center.y + ((width / 2) * sin(angle)) + ((height / 2) * cos(angle))
+Top_Right.x = center.x + ((width / 2) * cos(angle)) + ((height / 2) * sin(angle))
+Top_Right.y = center.y + ((width / 2) * sin(angle)) - ((height / 2) * cos(angle))
 
 
 
 TOP LEFT VERTEX:
-Top_Left.x = center.x - ((width / 2) * cos(angle)) - ((height / 2) * sin(angle))
-Top_Left.y = center.y - ((width / 2) * sin(angle)) + ((height / 2) * cos(angle))
+Top_Left.x = center.x - ((width / 2) * cos(angle)) + ((height / 2) * sin(angle))
+Top_Left.y = center.y - ((width / 2) * sin(angle)) - ((height / 2) * cos(angle))
 
 
 
 BOTTOM LEFT VERTEX:
-Bot_Left.x = center.x - ((width / 2) * cos(angle)) + ((height / 2) * sin(angle))
-Bot_Left.y = center.y - ((width / 2) * sin(angle)) - ((height / 2) * cos(angle))
+Bot_Left.x = center.x - ((width / 2) * cos(angle)) - ((height / 2) * sin(angle))
+Bot_Left.y = center.y - ((width / 2) * sin(angle)) + ((height / 2) * cos(angle))
 
 
 
 BOTTOM RIGHT VERTEX:
-Bot_Right.x = center.x + ((width / 2) * cos(angle)) + ((height / 2) * sin(angle))
-Bot_Right.y = center.y + ((width / 2) * sin(angle)) - ((height / 2) * cos(angle))
+Bot_Right.x = center.x + ((width / 2) * cos(angle)) - ((height / 2) * sin(angle))
+Bot_Right.y = center.y + ((width / 2) * sin(angle)) + ((height / 2) * cos(angle))
 */
