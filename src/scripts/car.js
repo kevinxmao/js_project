@@ -13,12 +13,13 @@ export class PlayerCar {
         this.car = car;
         this.x = window.innerWidth / 2;
         this.y = window.innerHeight / 2;
-        this.dx = 0;
-        this.dy = 0;
+        this.vx = 0;
+        this.vy = 0;
         this.speed = 0;
         this.reverseSpeed = 0;
         this.angle = 0;
         this.omega = 0;
+        this.mass = 1;
 
         // move boolean
         this.accelerate = false;
@@ -120,13 +121,13 @@ export class PlayerCar {
         this.omega = 0;
       }
 
-      this.dx = Math.sin(this.angle) * (this.speed - this.reverseSpeed);
-      this.dy = Math.cos(this.angle) * (this.speed - this.reverseSpeed);
+      this.vx = Math.sin(this.angle) * (this.speed - this.reverseSpeed);
+      this.vy = Math.cos(this.angle) * (this.speed - this.reverseSpeed);
 
       // console.log(this.x)
 
-      this.x += this.dx;
-      this.y -= this.dy;
+      this.x += this.vx;
+      this.y -= this.vy;
 
       this.angle += this.omega;
       this.omega *= this.omega;
@@ -143,6 +144,34 @@ export class PlayerCar {
         this.y += window.innerHeight;
       }
     }
+
+    checkCollisionWithBall(ball) {
+        // unrotated circle
+        let ucX = Math.cos(this.angle) * (ball.x - this.x) - Math.sin(this.angle) * (ball.y - this.y) + this.x;
+        let ucY = Math.sin(this.angle) * (ball.x - this.x) + Math.cos(this.angle) * (ball.y - this.y) + this.y;
+
+        let closestX;
+        let closestY;
+
+        if (ucX < this.x) {
+          closestX = this.x;
+        } else if (ucX > this.x + 16) {
+          closestX = this.x + 16;
+        } else {
+          closestX = ucX;
+        }
+
+        if (ucY < this.y) {
+          closestY = this.y;
+        } else if (ucY > this.y + 32) {
+          closestY = this.y + 16;
+        } else {
+          closestY = ucY;
+        }
+
+      let distance = Math.sqrt((ucX - closestX) * (ucX - closestX) + (ucY - closestY) * (ucY - closestY));
+      return distance <= ball.radius;
+    } 
 
     drawCar() {
       this.car.style.transform = `translate(${this.x}px, ${this.y}px) rotate(${this.angle * 180 / Math.PI}deg)`;

@@ -7,6 +7,7 @@ export class MovingObj {
         this.color = attr.color;
         this.vel = attr.vel;
         this.angle = attr.angle;
+        this.mass = this.radius;
 
         this.vx = this.vel * Math.cos(this.angle);
         this.vy = this.vel * Math.sin(this.angle);
