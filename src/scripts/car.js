@@ -93,6 +93,30 @@ export class PlayerCar {
         );
     }
 
+    reset() {
+      this.x = window.innerWidth / 2;
+      this.y = window.innerHeight / 2;
+      this.vx = 0;
+      this.vy = 0;
+      this.speed = 0;
+      this.reverseSpeed = 0;
+      this.angle = 0;
+      this.omega = 0;
+      this.mass = 1;
+
+      // move boolean
+      this.accelerate = false;
+      this.reverse = false;
+      // this.break = false;
+      this.turnLeft = false;
+      this.turnRight = false;
+      this.car.style.transform = `translate(${window.innerWidth / 2}px, ${window.innerHeight / 2}px) rotate(${0}deg)`;
+    }
+
+    renderCrash() {
+
+    }
+
     move() {
       const { maxSpeed, acceleration, decceleration, maxReverseSpeed, angularAcceleration } = CAR_CONSTANTS;
 

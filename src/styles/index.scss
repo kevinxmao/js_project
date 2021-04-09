@@ -111,3 +111,62 @@ header {
     }
 
 }
+
+#modal {
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 5;
+}
+
+.modal-content {
+    position: relative;
+    background-color: wheat;
+    padding: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30vh;
+    width: 20vw;
+    height: 20vh;
+    border: 1px solid wheat;
+    border-radius: 10px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    a.restart-button {
+        display: block;
+        background-color: red;
+        color: #fff;
+        height: 30px;
+        line-height: 30px;
+        padding: 0 30px;
+        box-shadow: 5px 4px 0px 0px rgba(0, 0, 0, 0.1);
+        z-index: 10;
+        border-radius: 15px;
+        text-transform: uppercase;
+        width: 180px;
+        text-align: center;
+        text-decoration: none;
+        margin-top: 30px;
+    }
+
+    .restart-button:active {
+        margin-top: 1px;
+    }
+
+    .win-lose {
+        margin-top: 20px;
+    }
+
+    .win-lose span {
+        color: red;
+        font-size: 12px;
+        line-height: 20px;
+    }
+}

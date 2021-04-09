@@ -32,7 +32,8 @@ export class Game {
     }
 
     addBall(radius, vel) {
-        let color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+        // let color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+        let color = 'blue';
         let x = Math.floor(Math.random() * window.innerWidth);
         let y = Math.floor(Math.random() * window.innerHeight);
         let angle = Math.random() * Math.PI * 2;
@@ -57,8 +58,9 @@ export class Game {
         // debugger;
         this.balls = [];
         this.addBalls();
-        this.car.car.style.transform = `translate(${window.innerWidth / 2}px, ${window.innerHeight / 2}px) rotate(${0}deg)`;
-        this.timer.startTimer();
+        this.car.reset();
+        
+        // this.timer.startTimer();
     }
 
     static onCollision(obj1, obj2) {
@@ -83,7 +85,16 @@ export class Game {
     }
 
     parked() {
+        let time = this.timer.timerDisplay.innerHTML;
+        if (!localStorage.getItem('time')) {
+            localStorage.setItem('time', time);
+        } else if (Date.parse(time) > Date.parse(localStorage.getItem('time'))) {
+            localStorage.setItem('time', time);
+        }
 
+        let bestTime = localStorage.getItem('time');
+        document.querySelector(".win-lose span").innerHTML = bestTime;
+        this.restart();
     }
 
     start() {
@@ -92,7 +103,22 @@ export class Game {
     }
 
     restart() {
+        const ctx = this.ctx;
+        ctx.fillStyle = "wheat";
+        ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        this.balls = [];
+        this.car.reset();
+        this.timer.resetTimer();
+        this.timer.timerDisplay.innerHTML = "00:00:00";
 
+        if (!this.lives) {
+            document.querySelector("div.win-lose span").innerHTML = 'You got a parking ticket';
+        }
+
+        this.lives = 5;
+        this.updateHearts();
+
+        document.getElementById("modal").style.visibility = 'visible';
     }
     
     gameOver() {
@@ -115,7 +141,7 @@ export class Game {
         this.balls.forEach(ball => {
             if (this.car.checkCollisionWithBall(ball)) {
                 this.carCrashed();
-                this.timer.pauseTimer();
+                // this.timer.pauseTimer();
             }
         });
         this.checkBallCollision();

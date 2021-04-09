@@ -5,6 +5,9 @@ import { PlayerCar } from "./scripts/car";
 import { Timer } from "./scripts/timer";
 
 document.addEventListener("DOMContentLoaded", () => {
+    const startBtn = document.querySelector("a.start");
+    const restartBtn = document.querySelector("a.restart-button");
+
     const canvas = document.getElementById("main-game");
     const ctx = canvas.getContext("2d");
     canvas.height = window.innerHeight;
@@ -52,20 +55,28 @@ document.addEventListener("DOMContentLoaded", () => {
     })();
 
     function animloop() {
+        if (game.gameOver()) {
+          game.restart();
+          window.cancelAnimationFrame(window.animationId);
+        }
         car.move();
         car.drawCar();
         game.animate();
 
         window.animationId = window.requestAnimationFrame(animloop);
     }
-  
-    const startBtn = document.querySelector("a.start");
+
+    restartBtn.addEventListener('click', () => {
+      console.log('hello')
+      document.getElementById("modal").style.visibility = 'hidden';
+      startBtn.style.visibility = 'visible';
+    })
 
     startBtn.addEventListener('click', () => {
       startBtn.style.visibility = 'hidden';
       game.start();
       animloop();
-    })
+    });
 })
 
 // Rectangle Math

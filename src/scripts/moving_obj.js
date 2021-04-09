@@ -8,7 +8,9 @@ export class MovingObj {
         this.vel = attr.vel;
         this.angle = attr.angle;
         this.mass = this.radius;
-
+        this.img = new Image();
+        this.img.onload = () => this.draw(ctx);
+        this.img.src = "src/assets/images/no_parking.png";
         this.vx = this.vel * Math.cos(this.angle);
         this.vy = this.vel * Math.sin(this.angle);
         // debugger
@@ -18,8 +20,17 @@ export class MovingObj {
         ctx.save();
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
-        ctx.fillStyle = this.color;
-        ctx.fill();
+        // ctx.fillStyle = this.color;
+        // ctx.fill();
+        ctx.closePath();
+        ctx.clip();
+        ctx.drawImage(
+            this.img,
+            this.x - this.radius,
+            this.y - this.radius,
+            this.radius * 2,
+            this.radius * 2
+        );
         ctx.restore();
     }
 
