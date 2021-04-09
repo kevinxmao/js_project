@@ -8,8 +8,8 @@ A parallel parking game that reminds New Yorkers the stress and straneous experi
 MVP & Functionalities
 * User uses arrow keys to drive and park the car.
 * Collision detection
-* Game increases in difficulty.
-* User can hear audio of cars honking.
+* User sees best time
+* User can hear audio of cars honking (bonus).
 
 Architecture/Technology
 * Node.js
