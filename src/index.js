@@ -22,11 +22,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const game = new Game(ctx, car, timer);
 
     myCar.style.transform = `translate(${window.innerWidth / 2}px, ${window.innerHeight / 2}px) rotate(${0}deg)`;
+    myCar.style.opacity = "0.5";
 
     function animloop() {
         if (game.gameOver()) {
           window.cancelAnimationFrame(window.animationId);
           game.restart();
+          return;
+        }
+
+        if (game.checkParked()) {
+          window.cancelAnimationFrame(window.animationId);
+          game.parked();
           return;
         }
         car.move();

@@ -36,17 +36,21 @@ export class PlayerCar {
             }
 
             switch (e.code) {
+              case "KeyA":
               case "ArrowLeft":
                 this.turnLeft = true;
                 break;
+              case "KeyD":
               case "ArrowRight":
                 this.turnRight = true;
                 break;
+              case "KeyW":
               case "ArrowUp":
                 // console.log("key down");
                 this.accelerate = true;
                 // console.log(this.accelerate)
                 break;
+              case "KeyS":
               case "ArrowDown":
                 this.reverse = true;
                 break;
@@ -71,15 +75,19 @@ export class PlayerCar {
             }
 
             switch (e.code) {
+              case "KeyA":
               case "ArrowLeft":
                 this.turnLeft = false;
                 break;
+              case "KeyD":
               case "ArrowRight":
                 this.turnRight = false;
                 break;
+              case "KeyW":
               case "ArrowUp":
                 this.accelerate = false;
                 break;
+              case "KeyS":
               case "ArrowDown":
                 this.reverse = false;
                 break;
@@ -111,6 +119,7 @@ export class PlayerCar {
       this.turnLeft = false;
       this.turnRight = false;
       this.car.style.transform = `translate(${window.innerWidth / 2}px, ${window.innerHeight / 2}px) rotate(${0}deg)`;
+      this.car.style.opacity = '0.5';
     }
 
     renderCrash() {

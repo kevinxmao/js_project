@@ -112,6 +112,29 @@ header {
 
 }
 
+.game-info {
+    width: 300px;
+    margin: auto;
+    text-align: left;
+    border-radius: 15px;
+    height: 60px;
+    background: #fff;
+    position: absolute;
+    right: -20px;
+    padding-right: 20px;
+    padding-left: 20px;
+    box-shadow: 5px 4px 0px 0px rgba(0, 0, 0, 0.1);
+    top: 20px;
+    
+    span {
+        display: block;
+        margin-top: 10px;
+        font-size: 8px;
+        line-height: 15px;
+        color: rgba(0, 0, 0, 0.8);
+    }
+}
+
 #modal {
     visibility: hidden;
     position: absolute;

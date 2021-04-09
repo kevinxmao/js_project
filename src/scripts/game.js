@@ -11,6 +11,13 @@ export class Game {
         this.balls = [];
         this.lives = 5;
         this.hearts = document.querySelectorAll("div.lives li");
+        this.time = null;
+        this.pX = 0;
+        this.pY = 0;
+
+        this.img = new Image();
+        // this.img.onload = () => this.draw(ctx);
+        this.img.src = "src/assets/images/parking.png";
     }
 
     addBalls() {
@@ -22,7 +29,37 @@ export class Game {
     }
 
     drawParkingSpot() {
+        const skirt = 30;
+        const innerBox = 100;
 
+        let x = Math.floor(Math.random() * (window.innerWidth - skirt)) + skirt;
+        let y = Math.floor(Math.random() * (window.innerHeight - skirt)) + skirt;
+
+        while ((x > window.innerWidth / 2 - innerBox / 2) && (x < window.innerWidth / 2 + innerBox / 2)) {
+            x = Math.floor(Math.random() * (window.innerWidth - skirt)) + skirt;
+        }
+
+        while ((y > window.innerHeight / 2 - innerBox / 2) && (y < window.innerHeight / 2 + innerBox / 2)) {
+            y = Math.floor(Math.random() * (window.innerHeight - skirt)) + skirt;
+        }
+
+        this.pX = x;
+        this.pY = y;
+    }
+
+    animateParkingSpot() {
+        this.ctx.fillStyle = '#0071cc';
+        this.ctx.fillRect(this.pX, this.pY, 60, 60);
+        // let region = new Path2D();
+        // region.rect(this.pX, this.pY, 60, 60);
+        // this.ctx.clip(region);
+        // this.ctx.drawImage(
+        //     this.img,
+        //     this.pX,
+        //     this.pY,
+        //     60,
+        //     60
+        // );
     }
 
     carCrashed() {
@@ -59,8 +96,10 @@ export class Game {
         this.balls = [];
         this.addBalls();
         this.car.reset();
-        
-        // this.timer.startTimer();
+        this.time = (new Date()).getTime();
+        setTimeout(() => {
+            this.car.car.style.opacity = '1';
+        }, 1500);
     }
 
     static onCollision(obj1, obj2) {
@@ -84,22 +123,66 @@ export class Game {
         }
     }
 
+    checkParked() {
+        const car = this.car;
+        const width = 16;
+        const height = 32;
+        let x = [
+            car.x + ((width / 2) * Math.cos(car.angle)) + ((32 / 2) * Math.sin(car.angle)),
+            car.x - ((width / 2) * Math.cos(car.angle)) + ((32 / 2) * Math.sin(car.angle)),
+            car.x - ((width / 2) * Math.cos(car.angle)) - ((32 / 2) * Math.sin(car.angle)),
+            car.x + ((width / 2) * Math.cos(car.angle)) - ((32 / 2) * Math.sin(car.angle))
+        ];
+
+        let y = [
+            car.y + ((width / 2) * Math.sin(car.angle)) - ((height / 2) * Math.cos(car.angle)),
+            car.y - ((width / 2) * Math.sin(car.angle)) - ((height / 2) * Math.cos(car.angle)),
+            car.y - ((width / 2) * Math.sin(car.angle)) + ((height / 2) * Math.cos(car.angle)),
+            car.y + ((width / 2) * Math.sin(car.angle)) + ((height / 2) * Math.cos(car.angle))
+        ]
+
+        let minX = Math.min(...x);
+        let maxX = Math.max(...x);
+        let minY = Math.min(...y);
+        let maxY = Math.max(...y);
+
+        let conditions = [
+            (minX > this.pX && minX < this.pX + 60),
+            (maxX > this.pX && maxX < this.pX + 60),
+            (minY > this.pY && minY < this.pY + 60),
+            (maxY > this.pY && maxY < this.pY + 60)
+        ];
+
+        let parked = !conditions.includes(false);
+        return parked;
+    }
+
     parked() {
         let time = this.timer.timerDisplay.innerHTML;
-        if (!localStorage.getItem('time')) {
+        if (localStorage.getItem('time') === null) {
             localStorage.setItem('time', time);
-        } else if (Date.parse(time) > Date.parse(localStorage.getItem('time'))) {
+        }
+
+        console.log(time)
+        
+        if( Date.parse(time) < Date.parse(localStorage.getItem('time'))) {
+            localStorage.removeItem('time');
             localStorage.setItem('time', time);
         }
 
         let bestTime = localStorage.getItem('time');
-        document.querySelector(".win-lose span").innerHTML = bestTime;
+        document.querySelector(".win-lose span").innerHTML = `Your best time: ${bestTime}`;
         this.restart();
     }
 
     start() {
         this.addBalls();
         this.timer.startTimer();
+        this.time = (new Date()).getTime();
+        setTimeout(() => {
+            this.car.car.style.opacity = '1';
+        }, 1500);
+        this.drawParkingSpot();
     }
 
     restart() {
@@ -108,7 +191,6 @@ export class Game {
         ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
         this.balls = [];
         this.car.reset();
-        console.log(this.balls)
         this.timer.resetTimer();
         this.timer.timerDisplay.innerHTML = "00:00:00";
 
@@ -136,13 +218,13 @@ export class Game {
         const ctx = this.ctx;
         ctx.fillStyle = "wheat";
         ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        this.animateParkingSpot();
         this.balls.forEach(ball => {
             ball.animate();
         });
         this.balls.forEach(ball => {
-            if (this.car.checkCollisionWithBall(ball)) {
+            if (this.car.checkCollisionWithBall(ball) && (new Date().getTime()) - this.time > 1500) {
                 this.carCrashed();
-                // this.timer.pauseTimer();
             }
         });
         this.checkBallCollision();
