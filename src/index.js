@@ -7,6 +7,7 @@ import { Timer } from "./scripts/timer";
 document.addEventListener("DOMContentLoaded", () => {
     const startBtn = document.querySelector("a.start");
     const restartBtn = document.querySelector("a.restart-button");
+    const modal = document.getElementById("modal");
 
     const canvas = document.getElementById("main-game");
     const ctx = canvas.getContext("2d");
@@ -22,42 +23,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     myCar.style.transform = `translate(${window.innerWidth / 2}px, ${window.innerHeight / 2}px) rotate(${0}deg)`;
 
-    (function () {
-      var lastTime = 0;
-      var vendors = ["webkit", "moz"];
-      for (
-        var x = 0;
-        x < vendors.length && !window.requestAnimationFrame;
-        ++x
-      ) {
-        window.requestAnimationFrame =
-          window[vendors[x] + "RequestAnimationFrame"];
-        window.cancelAnimationFrame =
-          window[vendors[x] + "CancelAnimationFrame"] ||
-          window[vendors[x] + "CancelRequestAnimationFrame"];
-      }
-
-      if (!window.requestAnimationFrame)
-        window.requestAnimationFrame = function (callback, element) {
-          var currTime = new Date().getTime();
-          var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-          var id = window.setTimeout(function () {
-            callback(currTime + timeToCall);
-          }, timeToCall);
-          lastTime = currTime + timeToCall;
-          return id;
-        };
-
-      if (!window.cancelAnimationFrame)
-        window.cancelAnimationFrame = function (id) {
-          clearTimeout(id);
-        };
-    })();
-
     function animloop() {
         if (game.gameOver()) {
-          game.restart();
           window.cancelAnimationFrame(window.animationId);
+          game.restart();
+          return;
         }
         car.move();
         car.drawCar();
@@ -66,11 +36,12 @@ document.addEventListener("DOMContentLoaded", () => {
         window.animationId = window.requestAnimationFrame(animloop);
     }
 
+    window.restartBtn = restartBtn;
+
     restartBtn.addEventListener('click', () => {
-      console.log('hello')
-      document.getElementById("modal").style.visibility = 'hidden';
+      modal.style.visibility = 'hidden';
       startBtn.style.visibility = 'visible';
-    })
+    });
 
     startBtn.addEventListener('click', () => {
       startBtn.style.visibility = 'hidden';

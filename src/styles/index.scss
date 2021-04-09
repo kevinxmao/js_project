@@ -156,10 +156,6 @@ header {
         margin-top: 30px;
     }
 
-    .restart-button:active {
-        margin-top: 1px;
-    }
-
     .win-lose {
         margin-top: 20px;
     }
@@ -168,5 +164,38 @@ header {
         color: red;
         font-size: 12px;
         line-height: 20px;
+    }
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    right: 15px;
+
+    .footer-links {
+        margin: 0;
+        padding: 0;
+        padding-bottom: 20px;
+        list-style-type: none;
+        display: flex;
+        align-items: center;
+        font-size: 35px;
+        
+        li {
+            color: rgba(76, 138, 152, 0.5);
+        }
+
+        a:not(:last-child) {
+            margin-right: 20px;
+        }
+
+        a:hover {
+            -webkit-filter: drop-shadow(0 0 0.75rem crimson);
+        }
+    }
+
+    img {
+        height: 35px;
+        border-radius: 50%;
     }
 }

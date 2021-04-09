@@ -108,6 +108,7 @@ export class Game {
         ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
         this.balls = [];
         this.car.reset();
+        console.log(this.balls)
         this.timer.resetTimer();
         this.timer.timerDisplay.innerHTML = "00:00:00";
 
