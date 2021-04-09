@@ -162,10 +162,8 @@ export class Game {
         if (localStorage.getItem('park-it-time') === null) {
             localStorage.setItem('park-it-time', time);
         }
-
-        console.log(time)
         
-        if (Date.parse(time) < Date.parse(localStorage.getItem('park-it-time'))) {
+        if (new Date(`1970-01-01 ${time}`) < new Date(`1970-01-01 ${localStorage.getItem('park-it-time')}`)) {
             localStorage.removeItem('park-it-time');
             localStorage.setItem('park-it-time', time);
         }
