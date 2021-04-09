@@ -29,18 +29,18 @@ export class Game {
     }
 
     drawParkingSpot() {
-        const skirt = 30;
+        const skirt = 60;
         const innerBox = 100;
 
-        let x = Math.floor(Math.random() * (window.innerWidth - skirt)) + skirt;
-        let y = Math.floor(Math.random() * (window.innerHeight - skirt)) + skirt;
+        let x = Math.floor(Math.random() * (window.innerWidth - skirt));
+        let y = Math.floor(Math.random() * (window.innerHeight - skirt));
 
         while ((x > window.innerWidth / 2 - innerBox / 2) && (x < window.innerWidth / 2 + innerBox / 2)) {
-            x = Math.floor(Math.random() * (window.innerWidth - skirt)) + skirt;
+            x = Math.floor(Math.random() * (window.innerWidth - skirt));
         }
 
         while ((y > window.innerHeight / 2 - innerBox / 2) && (y < window.innerHeight / 2 + innerBox / 2)) {
-            y = Math.floor(Math.random() * (window.innerHeight - skirt)) + skirt;
+            y = Math.floor(Math.random() * (window.innerHeight - skirt));
         }
 
         this.pX = x;
@@ -159,18 +159,18 @@ export class Game {
 
     parked() {
         let time = this.timer.timerDisplay.innerHTML;
-        if (localStorage.getItem('time') === null) {
-            localStorage.setItem('time', time);
+        if (localStorage.getItem('park-it-time') === null) {
+            localStorage.setItem('park-it-time', time);
         }
 
         console.log(time)
         
-        if( Date.parse(time) < Date.parse(localStorage.getItem('time'))) {
-            localStorage.removeItem('time');
-            localStorage.setItem('time', time);
+        if (Date.parse(time) < Date.parse(localStorage.getItem('park-it-time'))) {
+            localStorage.removeItem('park-it-time');
+            localStorage.setItem('park-it-time', time);
         }
 
-        let bestTime = localStorage.getItem('time');
+        let bestTime = localStorage.getItem('park-it-time');
         document.querySelector(".win-lose span").innerHTML = `Your best time: ${bestTime}`;
         this.restart();
     }

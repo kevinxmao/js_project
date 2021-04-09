@@ -24,6 +24,8 @@ document.addEventListener("DOMContentLoaded", () => {
     myCar.style.transform = `translate(${window.innerWidth / 2}px, ${window.innerHeight / 2}px) rotate(${0}deg)`;
     myCar.style.opacity = "0.5";
 
+  if (window.localStorage.getItem('park-it-time')) window.localStorage.removeItem('park-it-time');
+
     function animloop() {
         if (game.gameOver()) {
           window.cancelAnimationFrame(window.animationId);
