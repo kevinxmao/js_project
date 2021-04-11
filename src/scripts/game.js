@@ -22,7 +22,7 @@ export class Game {
 
     addBalls() {
         if (this.level === 1) {
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < 15; i++) {
                 this.addBall(30, 5);
             }
         }
@@ -30,7 +30,7 @@ export class Game {
 
     drawParkingSpot() {
         const skirt = 60;
-        const innerBox = 100;
+        const innerBox = 300;
 
         let x = Math.floor(Math.random() * (window.innerWidth - skirt));
         let y = Math.floor(Math.random() * (window.innerHeight - skirt));
