@@ -13,15 +13,12 @@ export class MovingObj {
         this.img.src = "src/assets/images/no_parking.png";
         this.vx = this.vel * Math.cos(this.angle);
         this.vy = this.vel * Math.sin(this.angle);
-        // debugger
     }
 
     draw(ctx) {
         ctx.save();
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
-        // ctx.fillStyle = this.color;
-        // ctx.fill();
         ctx.closePath();
         ctx.clip();
         ctx.drawImage(

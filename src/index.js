@@ -63,24 +63,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
 /*
 TOP RIGHT VERTEX:
-Top_Right.x = center.x + ((width / 2) * cos(angle)) + ((height / 2) * sin(angle))
-Top_Right.y = center.y + ((width / 2) * sin(angle)) - ((height / 2) * cos(angle))
+Top_Right.x = x + ((width / 2) * cos(angle)) + ((height / 2) * sin(angle))
+Top_Right.y = y + ((width / 2) * sin(angle)) - ((height / 2) * cos(angle))
 
 
 
 TOP LEFT VERTEX:
-Top_Left.x = center.x - ((width / 2) * cos(angle)) + ((height / 2) * sin(angle))
-Top_Left.y = center.y - ((width / 2) * sin(angle)) - ((height / 2) * cos(angle))
+Top_Left.x = x - ((width / 2) * cos(angle)) + ((height / 2) * sin(angle))
+Top_Left.y = y - ((width / 2) * sin(angle)) - ((height / 2) * cos(angle))
 
 
 
 BOTTOM LEFT VERTEX:
-Bot_Left.x = center.x - ((width / 2) * cos(angle)) - ((height / 2) * sin(angle))
-Bot_Left.y = center.y - ((width / 2) * sin(angle)) + ((height / 2) * cos(angle))
+Bot_Left.x = x - ((width / 2) * cos(angle)) - ((height / 2) * sin(angle))
+Bot_Left.y = y - ((width / 2) * sin(angle)) + ((height / 2) * cos(angle))
 
 
 
 BOTTOM RIGHT VERTEX:
-Bot_Right.x = center.x + ((width / 2) * cos(angle)) - ((height / 2) * sin(angle))
-Bot_Right.y = center.y + ((width / 2) * sin(angle)) + ((height / 2) * cos(angle))
+Bot_Right.x = x + ((width / 2) * cos(angle)) - ((height / 2) * sin(angle))
+Bot_Right.y = y + ((width / 2) * sin(angle)) + ((height / 2) * cos(angle))
 */

@@ -16,7 +16,6 @@ export class Game {
         this.pY = 0;
 
         this.img = new Image();
-        // this.img.onload = () => this.draw(ctx);
         this.img.src = "src/assets/images/parking.png";
     }
 
@@ -50,16 +49,6 @@ export class Game {
     animateParkingSpot() {
         this.ctx.fillStyle = '#0071cc';
         this.ctx.fillRect(this.pX, this.pY, 60, 60);
-        // let region = new Path2D();
-        // region.rect(this.pX, this.pY, 60, 60);
-        // this.ctx.clip(region);
-        // this.ctx.drawImage(
-        //     this.img,
-        //     this.pX,
-        //     this.pY,
-        //     60,
-        //     60
-        // );
     }
 
     carCrashed() {
@@ -92,7 +81,6 @@ export class Game {
     }
 
     reset() {
-        // debugger;
         this.balls = [];
         this.addBalls();
         this.car.reset();
@@ -115,7 +103,6 @@ export class Game {
         if (speed < 0) {
             return;
         } else {
-            // debugger;
             obj1.vx -= (impulse * obj2.mass * vCollisionNorm.x);
             obj1.vy -= (impulse * obj2.mass * vCollisionNorm.y);
             obj2.vx += (impulse * obj1.mass * vCollisionNorm.x);
