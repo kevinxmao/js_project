@@ -157,6 +157,7 @@ export class Game {
 
         let bestTime = localStorage.getItem('park-it-time');
         document.querySelector(".win-lose span").innerHTML = `Your best time: ${bestTime}`;
+        document.querySelector(".actual-time span").innerHTML = `Time: ${time}`;
         this.restart();
     }
 
@@ -181,6 +182,7 @@ export class Game {
 
         if (!this.lives) {
             document.querySelector("div.win-lose span").innerHTML = 'You got a parking ticket';
+            document.querySelector("div.actual-time span").innerHTML = '';
         }
 
         this.lives = 5;
